@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Enemy
+  - Projectile
+  - EnemyVision
+  - Obstacles
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
@@ -13,12 +18,12 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - EnemyVision
+  - Obstacles
+  - EnemyProjectile
+  - Projectile
   - 
   - 
   - 
