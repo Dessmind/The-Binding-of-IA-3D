@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1419083372942399302}
-  - component: {fileID: 410028877528456301}
+  - component: {fileID: 1426039745321507210}
   - component: {fileID: 7445791956812013790}
   - component: {fileID: 5851792066177191070}
   - component: {fileID: 776835584764196111}
@@ -41,7 +41,7 @@ Transform:
   - {fileID: 7952156375148154081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &410028877528456301
+--- !u!114 &1426039745321507210
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,17 +53,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2630dad4af5acf647ad8c840b57dad7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 60
+  maxHealth: 100
   healthBarFill: {fileID: 8001995246705108221}
   healthBarCanvas: {fileID: 3689085006261121248}
-  mainCamera: {fileID: 0}
-  damageColor: {r: 1, g: 0.33490568, b: 0.33490568, a: 1}
-  flashDuration: 0.15
+  mainCamera: {fileID: 7792451064041683522, guid: 5c0cc1352a9764c47a9f6fa69f5b8a8c, type: 3}
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
   contactDamage: 0
   deathSound: {fileID: 8300000, guid: b2e7cf9eb78980a4780d9405564cd3bc, type: 3}
   damageSound: {fileID: 8300000, guid: 7b5132746228eeb43b565950d0eb04ab, type: 3}
   patrolPoints: []
-  patrolWaitTime: 2
+  patrolWaitTime: 0
+  patrolRadius: 10
 --- !u!136 &7445791956812013790
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -597,6 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398d0c288d0ac344c84f46e1a18620ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 7792451064041683522, guid: 5c0cc1352a9764c47a9f6fa69f5b8a8c, type: 3}
 --- !u!223 &8977827633412667456
 Canvas:
   m_ObjectHideFlags: 0

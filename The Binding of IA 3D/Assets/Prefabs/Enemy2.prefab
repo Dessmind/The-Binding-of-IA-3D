@@ -282,7 +282,7 @@ MonoBehaviour:
   maxHealth: 100
   healthBarFill: {fileID: 8310482527550096655}
   healthBarCanvas: {fileID: 3416627726653051154}
-  mainCamera: {fileID: 0}
+  mainCamera: {fileID: 7792451064041683522, guid: 5c0cc1352a9764c47a9f6fa69f5b8a8c, type: 3}
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
   contactDamage: 25
@@ -299,7 +299,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   patrolPoints: []
-  patrolWaitTime: 2
+  patrolWaitTime: 0.5
+  patrolRadius: 10
   lostSightDuration: 3
   enemyProjectilePrefab: {fileID: 5717962962834190509, guid: 0a5ec4b0e4152f746bd3d29faf177b14, type: 3}
   targetShoot: {fileID: 380306159589383511}
@@ -1477,6 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398d0c288d0ac344c84f46e1a18620ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 7792451064041683522, guid: 5c0cc1352a9764c47a9f6fa69f5b8a8c, type: 3}
 --- !u!223 &6975980434671884722
 Canvas:
   m_ObjectHideFlags: 0
@@ -1880,6 +1882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398d0c288d0ac344c84f46e1a18620ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
 --- !u!223 &8445066455743726698
 Canvas:
   m_ObjectHideFlags: 0

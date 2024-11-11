@@ -49,7 +49,7 @@ MonoBehaviour:
   player: {fileID: 8648588954340026063, guid: 8bfdc62fae5e39e498148509ed7dddb3, type: 3}
   distance: 5.5
   height: 2
-  mouseSensitivity: 350
+  mouseSensitivity: 300
   horizontalOffset: 1
   maxYUp: 45
   maxYDown: -45

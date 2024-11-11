@@ -77,7 +77,7 @@ MonoBehaviour:
   destroyDelay: 3
   maxEnergy: 100
   sprintEnergyCost: 25
-  rechargeDelay: 1.5
+  rechargeDelay: 0.5
   healthBarFill: {fileID: 0}
   energyBarFill: {fileID: 0}
 --- !u!143 &5533323999287782420
