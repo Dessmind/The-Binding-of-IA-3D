@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class UniversalAgentSpawner : MonoBehaviour
@@ -13,7 +14,6 @@ public class UniversalAgentSpawner : MonoBehaviour
     [Header("General Settings")]
     public EnemyType enemyType;
     public Transform spawnPoint;
-    public Camera mainCamera;
     public Transform playerTransform;
 
     [Header("Prefabs")]
@@ -25,6 +25,23 @@ public class UniversalAgentSpawner : MonoBehaviour
     public List<Transform> patrolPoints;
 
     private GameObject spawnedAgent;
+    private Camera mainCamera;
+
+    private void Start()
+    {
+        // Inicia la corrutina para esperar y asignar la cámara, pero no instancia enemigos al inicio
+        StartCoroutine(WaitForCamera());
+    }
+
+    private IEnumerator WaitForCamera()
+    {
+        // Espera hasta encontrar la cámara principal
+        while (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+            yield return new WaitForSeconds(0.1f); // Ajusta el tiempo según sea necesario
+        }
+    }
 
     public void SpawnAgent()
     {

@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class EnemyControllerNavMesh : EnemyBase
 {
@@ -67,23 +66,25 @@ public class EnemyControllerNavMesh : EnemyBase
 
         targetPoint = target;
         mainCamera = camera;
-        this.patrolPoints = patrolPoints ?? this.patrolPoints;
+        this.patrolPoints = patrolPoints; // Asignar directamente los puntos de patrullaje
+        currentPatrolIndex = 0; // Reinicia el índice de patrullaje
 
-        if (targetPoint != null && navMeshAgent.isOnNavMesh)
-        {
-            navMeshAgent.SetDestination(targetPoint.position);
-            isPatrolling = false;
-        }
-        else if (this.patrolPoints != null && this.patrolPoints.Count > 0)
+        if (this.patrolPoints != null && this.patrolPoints.Count > 0 && navMeshAgent.isOnNavMesh)
         {
             navMeshAgent.SetDestination(this.patrolPoints[currentPatrolIndex].position);
-            isPatrolling = true;
+            isPatrolling = true; // Empieza a patrullar si hay puntos
+        }
+        else if (targetPoint != null)
+        {
+            navMeshAgent.SetDestination(targetPoint.position);
+            isPatrolling = false; // Si no hay puntos de patrullaje, va hacia el targetPoint
         }
         else
         {
-            SetRandomPatrol();
+            SetRandomPatrol(); // Alternativa aleatoria si no hay puntos ni target
         }
     }
+
 
     public void SetRandomPatrol()
     {
@@ -160,8 +161,6 @@ public class EnemyControllerNavMesh : EnemyBase
         isJumping = false;
     }
 
-    // Sobreescribimos el método Die para desactivar el agente cuando el enemigo muere
-    // Sobreescribimos el método Die para desactivar el agente cuando el enemigo muere
     protected override void Die(bool causedByPlayer = false)
     {
         if (navMeshAgent != null && navMeshAgent.isOnNavMesh)
@@ -170,9 +169,24 @@ public class EnemyControllerNavMesh : EnemyBase
             navMeshAgent.enabled = false;
         }
 
-        base.Die(causedByPlayer); // Llama al método Die de la clase base para manejar la muerte
+        base.Die(causedByPlayer);
     }
 
+    // Sobreescribimos el método OnTriggerEnter para que no haga daño al jugador
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Projectile"))
+        {
+            Projectile projectile = other.GetComponent<Projectile>();
+            if (projectile != null)
+            {
+                TakeDamage(projectile.damage, causedByPlayer: true);
+                Destroy(other.gameObject);
+            }
+        }
+        else if (other.CompareTag("EnemyVision"))
+        {
+            TakeDamage(contactDamage, causedByPlayer: false);
+        }
+    }
 }
-
-

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,40 +6,39 @@ using System.Collections.Generic;
 public class VisionEnemyController : EnemyVisionBase
 {
     [Header("Vision Settings")]
-    public float visionAngle = 45f;
-    public float visionDistance = 10f;
-    public LayerMask targetMask;
-    public LayerMask obstructionMask;
+    public float visionAngle = 45f; // Ángulo de visión del enemigo
+    public float visionDistance = 10f; // Distancia máxima a la que puede ver
+    public LayerMask targetMask; // Máscara para los objetivos (ej. jugador)
+    public LayerMask obstructionMask; // Máscara para detectar obstrucciones en la visión
 
     [Header("Patrol Settings")]
-    public List<Transform> patrolPoints;
-    private int currentPatrolIndex = 0;
-    public float patrolWaitTime = 0.5f;
-    public float patrolRadius = 10f;
-    private bool isPatrolling = true;
+    public List<Transform> patrolPoints; // Lista de puntos de patrullaje
+    private int currentPatrolIndex = 0; // Índice del punto de patrullaje actual
+    public float patrolWaitTime = 0.5f; // Tiempo que espera en cada punto
+    public float patrolRadius = 10f; // Radio para patrullaje aleatorio
+    private bool isPatrolling = true; // Indica si está en modo patrullaje
 
-    private NavMeshAgent navMeshAgent;
-    private Transform target;
-    private Vector3 initialPosition;
-    private bool isChasing = false;
-    private float lostSightTimer = 0f;
-    public float lostSightDuration = 3f;
+    private NavMeshAgent navMeshAgent; // Agente de navegación
+    private Transform target; // Referencia al objetivo a seguir
+    private Vector3 initialPosition; // Posición inicial del enemigo
+    private bool isChasing = false; // Indica si está persiguiendo al objetivo
+    private float lostSightTimer = 0f; // Tiempo desde que perdió de vista al objetivo
+    public float lostSightDuration = 3f; // Tiempo máximo que seguirá persiguiendo después de perder de vista
 
     [Header("Shooting Settings")]
-    public GameObject enemyProjectilePrefab;
-    public Transform targetShoot;
-    public float projectileSpeed = 10f;
-    public float shootRate = 1f;
-    private float lastShootTime;
+    public GameObject enemyProjectilePrefab; // Prefab del proyectil
+    public Transform targetShoot; // Punto de disparo
+    public float projectileSpeed = 10f; // Velocidad del proyectil
+    public float shootRate = 1f; // Cadencia de disparo
+    private float lastShootTime; // Controla el último disparo
 
-    // Método para inicializar con jugador, cámara y puntos de patrullaje
+    // Inicializa el enemigo con jugador, cámara y puntos de patrullaje
     public void Initialize(Transform playerTransform, Camera mainCamera, List<Transform> patrolPoints)
     {
         target = playerTransform;
         this.mainCamera = mainCamera;
         this.patrolPoints = patrolPoints;
 
-        // Asegúrate de que navMeshAgent está inicializado
         if (navMeshAgent == null)
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -90,6 +88,7 @@ public class VisionEnemyController : EnemyVisionBase
         CheckVision();
     }
 
+    // Configura una patrulla aleatoria
     public void SetRandomPatrol()
     {
         StartCoroutine(RandomPatrolRoutine());
@@ -112,6 +111,7 @@ public class VisionEnemyController : EnemyVisionBase
         }
     }
 
+    // Patrulla entre los puntos asignados
     private void Patrol()
     {
         if (!navMeshAgent.isOnNavMesh) return;
@@ -147,6 +147,7 @@ public class VisionEnemyController : EnemyVisionBase
         }
     }
 
+    // Verifica si el objetivo está dentro de la visión
     private void CheckVision()
     {
         Collider[] targetsInView = Physics.OverlapSphere(transform.position, visionDistance, targetMask);
@@ -203,6 +204,7 @@ public class VisionEnemyController : EnemyVisionBase
         StopCoroutine("ReturnToPatrol");
     }
 
+    // Persigue al objetivo
     private void ChaseTarget()
     {
         if (target != null && navMeshAgent.isOnNavMesh)
@@ -259,5 +261,19 @@ public class VisionEnemyController : EnemyVisionBase
         {
             Physics.IgnoreCollision(enemyCollider, projectileCollider);
         }
+    }
+
+    // Visualización de los Gizmos para los radios de visión
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, visionDistance); // Visualiza el radio de visión
+
+        Vector3 visionLeftBoundary = Quaternion.Euler(0, -visionAngle / 2, 0) * transform.forward * visionDistance;
+        Vector3 visionRightBoundary = Quaternion.Euler(0, visionAngle / 2, 0) * transform.forward * visionDistance;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, visionLeftBoundary); // Marca el ángulo izquierdo de visión
+        Gizmos.DrawRay(transform.position, visionRightBoundary); // Marca el ángulo derecho de visión
     }
 }
